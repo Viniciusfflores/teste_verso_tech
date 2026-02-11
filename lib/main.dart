@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'core/di/injection.dart' as di;
-import 'features/pokemon_list/presentation/screens/datail_screen.dart';
+import 'features/pokemon_list/presentation/screens/pokemon_detail_screen.dart';
 import 'features/pokemon_list/presentation/screens/pokemon_list_screen.dart';
 
 void main() async {

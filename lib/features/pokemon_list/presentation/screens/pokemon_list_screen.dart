@@ -30,7 +30,11 @@ class _PokemonListState extends State<PokemonList> {
         elevation: 0,
         title: const Text(
           'Pokédex',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.white),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+            color: Colors.white,
+          ),
         ),
         actions: [
           Padding(
@@ -44,7 +48,7 @@ class _PokemonListState extends State<PokemonList> {
                 boxShadow: [BoxShadow(color: Colors.white, blurRadius: 10)],
               ),
             ),
-          )
+          ),
         ],
       ),
       body: Column(
@@ -61,7 +65,12 @@ class _PokemonListState extends State<PokemonList> {
               child: Observer(
                 builder: (_) {
                   if (pokemonStore.isLoading) {
-                    return const Center(child: CircularProgressIndicator(color: Colors.redAccent));
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.redAccent,
+                        key: Key('loading'),
+                      ),
+                    );
                   }
 
                   if (pokemonStore.errorMessage != null) {
@@ -69,14 +78,21 @@ class _PokemonListState extends State<PokemonList> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.error_outline, size: 60, color: Colors.red),
+                          const Icon(
+                            Icons.error_outline,
+                            size: 60,
+                            color: Colors.red,
+                          ),
                           const SizedBox(height: 16),
-                          const Text("Erro ao carregar dados", style: TextStyle(fontWeight: FontWeight.bold)),
+                          const Text(
+                            "Erro ao carregar dados",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                           Text(pokemonStore.errorMessage!),
                           TextButton(
                             onPressed: () => pokemonStore.fetchPokemons(),
                             child: const Text("Tentar novamente"),
-                          )
+                          ),
                         ],
                       ),
                     );
@@ -84,12 +100,13 @@ class _PokemonListState extends State<PokemonList> {
 
                   return GridView.builder(
                     padding: const EdgeInsets.all(12),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      childAspectRatio: 1,
-                    ),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          childAspectRatio: 1,
+                        ),
                     itemCount: pokemonStore.pokemonList.length,
                     itemBuilder: (context, index) {
                       final pokemon = pokemonStore.pokemonList[index];
@@ -114,7 +131,12 @@ class _PokemonListState extends State<PokemonList> {
 
           // Painel de controle
           Container(
-            padding: const EdgeInsets.only(bottom: 40, top: 20, left: 20, right: 20),
+            padding: const EdgeInsets.only(
+              bottom: 40,
+              top: 20,
+              left: 20,
+              right: 20,
+            ),
             decoration: BoxDecoration(
               color: Colors.grey[900],
               borderRadius: const BorderRadius.only(
@@ -126,43 +148,52 @@ class _PokemonListState extends State<PokemonList> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 // Seta Esquerda
-                Observer(builder: (_) {
-                  return _buildNavButton(
-                    icon: Icons.arrow_back_ios_new,
-                    onTap: pokemonStore.previousPage,
-                    enabled: pokemonStore.offset > 0,
-                  );
-                }),
+                Observer(
+                  builder: (_) {
+                    return _buildNavButton(
+                      icon: Icons.arrow_back_ios_new,
+                      onTap: pokemonStore.previousPage,
+                      enabled: pokemonStore.offset > 0,
+                    );
+                  },
+                ),
 
                 // Display de Página
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 10,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.lightGreen[400],
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(color: Colors.black54, width: 3),
                   ),
-                  child: Observer(builder: (_) {
-                    return Text(
-                      "PAGE: ${(pokemonStore.offset / 20).toInt() + 1}",
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: Colors.black87,
-                        letterSpacing: 1.2,
-                      ),
-                    );
-                  }),
+                  child: Observer(
+                    builder: (_) {
+                      return Text(
+                        "PAGE: ${(pokemonStore.offset / 20).toInt() + 1}",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.black87,
+                          letterSpacing: 1.2,
+                        ),
+                      );
+                    },
+                  ),
                 ),
 
                 // Seta Direita
-                Observer(builder: (_) {
-                  return _buildNavButton(
-                    icon: Icons.arrow_forward_ios,
-                    onTap: pokemonStore.nextPage,
-                    enabled: true,
-                  );
-                }),
+                Observer(
+                  builder: (_) {
+                    return _buildNavButton(
+                      icon: Icons.arrow_forward_ios,
+                      onTap: pokemonStore.nextPage,
+                      enabled: true,
+                    );
+                  },
+                ),
               ],
             ),
           ),
@@ -194,7 +225,7 @@ class _PokemonListState extends State<PokemonList> {
                   color: Colors.redAccent.withOpacity(0.4),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
-                )
+                ),
             ],
             border: Border.all(color: Colors.grey[800]!, width: 2),
           ),
@@ -202,6 +233,5 @@ class _PokemonListState extends State<PokemonList> {
         ),
       ),
     );
-
   }
 }
