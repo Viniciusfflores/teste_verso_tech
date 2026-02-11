@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:pokemon_api_test/features/pokemon_list/presentation/screens/pokemon_list_screen.dart';
+import 'core/di/injection.dart' as di;
+import 'features/pokemon_list/presentation/screens/datail_screen.dart';
 
-void main() {
-  runApp(const PokedexApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
+  runApp(const MyApp());
 }
 
-class PokedexApp extends StatelessWidget {
-  const PokedexApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      title: 'Pokédex',
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(child: Text('Pokedex App')),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+        useMaterial3: true,
       ),
+      home: const PokemonList(),
     );
   }
 }
