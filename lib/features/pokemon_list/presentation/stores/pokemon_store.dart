@@ -66,5 +66,27 @@ abstract class _PokemonStoreBase with Store {
     }
   }
 
+  @action
+  Future<void> fetchPokemonDetail(int id) async {
+    try{
+      isLoading = true;
+      errorMessage = null;
+      selectedPokemon = null;
+
+      final result = await _pokemonRepository.fetchPokemonDetail(id);
+
+      selectedPokemon = result;
+    }catch(e) {
+      if (e is PokemonException) {
+        errorMessage = e.message;
+      } else {
+        errorMessage = 'Falha ao carregar Detalhes';
+      }
+      log('Erro ao buscar detalhes do Pokémon: $e', name: 'PokemonStore');
+    }finally{
+      isLoading = false;
+    }
+  }
+
 }
 

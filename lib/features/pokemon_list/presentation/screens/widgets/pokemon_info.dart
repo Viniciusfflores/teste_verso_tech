@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +20,7 @@ class PokemonInfo extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          log('Pokemon ${pokemon.name}', name: 'PokemonInfo');
+          Navigator.pushNamed(context, '/pokemonDetail', arguments: pokemon.id);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

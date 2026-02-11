@@ -20,4 +20,19 @@ class PokemonRepository {
     }
   }
 
+  Future<PokemonModel> fetchPokemonDetail(int id) async {
+    try {
+      final response = await _remoteDatasource.getPokemonDetail(id);
+
+      final result = response.data;
+
+      return PokemonModel.fromMap(result);
+    }catch(e){
+      log('Falha ao detalhes dos Pokemons: $e', name: 'PokemonRepository');
+
+      throw Exception('Falha inesperada ao carregar os detalhes do Pokémon.');
+    }
+
+  }
+
 }

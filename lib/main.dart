@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_api_test/features/pokemon_list/presentation/screens/pokemon_list_screen.dart';
 import 'core/di/injection.dart' as di;
 import 'features/pokemon_list/presentation/screens/datail_screen.dart';
+import 'features/pokemon_list/presentation/screens/pokemon_list_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +22,12 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const PokemonList(),
+      routes: {
+        '/pokemonDetail': (context) {
+          final id = ModalRoute.of(context)?.settings.arguments as int;
+          return PokemonDetail(pokemonId: id);
+        },
+      },
     );
   }
 }
