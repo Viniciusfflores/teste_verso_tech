@@ -46,7 +46,7 @@ abstract class _PokemonStoreBase with Store {
       }else {
         errorMessage = 'Falha ao carregar Pokemons';
       }
-      log('Erro ao buscar Pokémons: $e', name: 'PokemonStore');
+      //log('Erro ao buscar Pokémons: $e', name: 'PokemonStore');
     } finally {
       isLoading = false;
     }
@@ -82,7 +82,7 @@ abstract class _PokemonStoreBase with Store {
       } else {
         errorMessage = 'Falha ao carregar Detalhes';
       }
-      log('Erro ao buscar detalhes do Pokémon: $e', name: 'PokemonStore');
+      //log('Erro ao buscar detalhes do Pokémon: $e', name: 'PokemonStore');
     }finally{
       isLoading = false;
     }

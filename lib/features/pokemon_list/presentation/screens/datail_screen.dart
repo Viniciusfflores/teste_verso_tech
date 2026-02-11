@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mobx/mobx.dart';
 import '../stores/pokemon_store.dart';
 
 class PokemonDetail extends StatefulWidget {
