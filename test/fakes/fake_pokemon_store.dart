@@ -44,6 +44,9 @@ class FakePokemonStore implements PokemonStore {
   Future<void> fetchPokemonDetail(int id) async {}
 
   @override
+  Future<void> playSound( {String path = '', bool lopping = false, double volume = 1.0}) async{}
+
+  @override
   void nextPage() {}
 
   @override

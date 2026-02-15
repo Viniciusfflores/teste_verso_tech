@@ -21,6 +21,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
         useMaterial3: true,
       ),
+      navigatorObservers: [
+        di.getIt<RouteObserver<ModalRoute>>()
+      ],
       home: const PokemonList(),
       routes: {
         '/pokemonDetail': (context) {

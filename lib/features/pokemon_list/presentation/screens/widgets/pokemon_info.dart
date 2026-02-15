@@ -1,25 +1,51 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import '../../../data/models/model_pokemon.dart';
 
 class PokemonInfo extends StatelessWidget {
   final PokemonModel pokemon;
-
+  final AudioPlayer player;
   final double chamfer;
 
   const PokemonInfo({
     super.key,
     required this.pokemon,
     this.chamfer = 18,
+    required this.player
   });
+
+  void playSound() async {
+    try {
+      await player.setAudioSource(
+        AudioSource.asset('assets/audio/open_card.wav'),
+        preload: true,
+      );
+      await player.setLoopMode(LoopMode.off);
+      await player.setVolume(1.5);
+      await player.play();
+    } catch (e) {
+      log('$e', name: 'WIDGET POKEMON INFO');
+    }
+  }
+
+
+  @override
+  dispose() {
+    player.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () {
+        onTap: () async{
+          playSound();
           Navigator.pushNamed(context, '/pokemonDetail', arguments: pokemon.id);
         },
         child: Column(

@@ -1,6 +1,6 @@
-import 'dart:developer';
 import 'package:mobx/mobx.dart';
 import '../../../../core/errors/app_exception.dart';
+import '../../../../core/services/audio_service.dart';
 import '../../data/models/model_pokemon.dart';
 import '../../data/repositories/pokemon_repository.dart';
 
@@ -10,8 +10,9 @@ class PokemonStore = _PokemonStoreBase with _$PokemonStore;
 
 abstract class _PokemonStoreBase with Store {
   final PokemonRepository _pokemonRepository;
+  final AudioService _audioService;
 
-  _PokemonStoreBase(this._pokemonRepository);
+  _PokemonStoreBase(this._pokemonRepository, this._audioService);
 
   @observable
   int offset = 0;
@@ -53,8 +54,18 @@ abstract class _PokemonStoreBase with Store {
   }
 
   @action
+  Future<void> playSound({
+    String path = '',
+    bool lopping = false,
+    double volume = 1.0})async
+  {
+    _audioService.playSfx(path: path, volume: volume, loop: lopping);
+  }
+
+  @action
   void nextPage() {
     offset += limit;
+    _audioService.playSfx(path: 'assets/audio/button7.wav', volume: 1.3);
     fetchPokemons();
   }
 
@@ -62,6 +73,7 @@ abstract class _PokemonStoreBase with Store {
   void previousPage() {
     if (offset >= limit) {
       offset -= limit;
+      _audioService.playSfx(path: 'assets/audio/button7.wav', volume: 1.3);
       fetchPokemons();
     }
   }

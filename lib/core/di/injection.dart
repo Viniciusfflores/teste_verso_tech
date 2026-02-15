@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import '../../features/pokemon_list/presentation/stores/pokemon_store.dart';
 import '../network/api/api_service.dart';
 import '../../features/pokemon_list/data/datasource/pokemon_remote_datasource.dart';
 import '../../features/pokemon_list/data/repositories/pokemon_repository.dart';
+import '../services/audio_service.dart';
 
 final getIt = GetIt.instance;
 
@@ -20,7 +22,17 @@ Future<void> init() async {
         () => PokemonRepository(getIt<PokemonRemoteDatasource>()),
   );
 
+  getIt.registerLazySingleton<AudioService>(() => AudioService());
+
   getIt.registerFactory<PokemonStore>(
-        () => PokemonStore(getIt<PokemonRepository>()),
+        () => PokemonStore(
+            getIt<PokemonRepository>(),
+            getIt<AudioService>(),
+        ),
   );
+
+  getIt.registerSingleton<RouteObserver<ModalRoute>>(
+    RouteObserver<ModalRoute>(),
+  );
+
 }

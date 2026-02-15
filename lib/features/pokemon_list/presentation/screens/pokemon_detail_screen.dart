@@ -1,7 +1,9 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:just_audio/just_audio.dart';
 import '../stores/pokemon_store.dart';
 
 class PokemonDetail extends StatefulWidget {
@@ -15,15 +17,33 @@ class PokemonDetail extends StatefulWidget {
 
 class _PokemonDetail extends State<PokemonDetail> {
   final pokemonStore = GetIt.I<PokemonStore>();
+  final _player = AudioPlayer();
 
   @override
   void initState() {
     super.initState();
     pokemonStore.fetchPokemonDetail(widget.pokemonId);
+    playSound();
+  }
+
+  void playSound() async {
+    try {
+      await Future.delayed(const Duration(milliseconds: 1000));
+      await _player.setAudioSource(
+        AudioSource.asset('assets/audio/arcade-theme.wav'),
+        preload: true,
+      );
+      await _player.setLoopMode(LoopMode.all);
+      await _player.setVolume(0.4);
+      await _player.play();
+    } catch (e) {
+      log('$e', name: 'SCREEN POKEMON INFO');
+    }
   }
 
   @override
   void dispose() {
+    _player.dispose();
     super.dispose();
   }
 
