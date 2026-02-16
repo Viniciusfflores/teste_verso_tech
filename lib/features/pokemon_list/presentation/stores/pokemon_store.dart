@@ -19,6 +19,12 @@ abstract class _PokemonStoreBase with Store {
 
   final int limit = 20;
 
+  @computed
+  bool get canGoBack => offset >= limit;
+
+  @computed
+  int get currentPage => (offset / limit).toInt() + 1;
+
   @observable
   ObservableList<PokemonModel> pokemonList = ObservableList<PokemonModel>();
 
@@ -71,7 +77,7 @@ abstract class _PokemonStoreBase with Store {
 
   @action
   void previousPage() {
-    if (offset >= limit) {
+    if (canGoBack) {
       offset -= limit;
       _audioService.playSfx(path: 'assets/audio/button7.wav', volume: 1.3);
       fetchPokemons();

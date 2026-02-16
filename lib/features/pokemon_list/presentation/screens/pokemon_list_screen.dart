@@ -1,9 +1,11 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pokemon_api_test/features/pokemon_list/presentation/screens/widgets/pokedex_card.dart';
 import 'package:pokemon_api_test/features/pokemon_list/presentation/screens/widgets/pokemon_info.dart';
 import '../stores/pokemon_store.dart';
+import 'package:just_audio/just_audio.dart';
 
 class PokemonList extends StatefulWidget {
   const PokemonList({super.key});
@@ -12,13 +14,52 @@ class PokemonList extends StatefulWidget {
   State<PokemonList> createState() => _PokemonListState();
 }
 
-class _PokemonListState extends State<PokemonList> {
+class _PokemonListState extends State<PokemonList> with RouteAware{
   final pokemonStore = GetIt.I<PokemonStore>();
+  final routeObserver = GetIt.I<RouteObserver<ModalRoute>>();
+  final _player = AudioPlayer();
 
   @override
   void initState() {
     super.initState();
     pokemonStore.fetchPokemons();
+    playSound();
+  }
+
+  void playSound() async {
+    try {
+      await Future.delayed(const Duration(milliseconds: 500));
+      await _player.setAudioSource(
+       AudioSource.asset('assets/audio/theme_sound.wav'),
+       preload: true,
+      );
+      await _player.setLoopMode(LoopMode.all);
+      await _player.setVolume(0.6);
+      await _player.play();
+    } catch (e) {
+      log('$e', name: 'SCREEN POKEMON LIST');
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final modalRoute = ModalRoute.of(context);
+    if (modalRoute is PageRoute) {
+      routeObserver.subscribe(this, modalRoute);
+    }
+  }
+
+  @override
+  void didPopNext() {
+    playSound();
+  }
+
+  @override
+  dispose() {
+    _player.dispose();
+    routeObserver.unsubscribe(this);
+    super.dispose();
   }
 
   @override
@@ -120,6 +161,7 @@ class _PokemonListState extends State<PokemonList> {
                           key: ValueKey(pokemon.id),
                           pokemon: pokemon,
                           chamfer: 20,
+                          player: _player,
                         ),
                       );
                     },
@@ -172,7 +214,7 @@ class _PokemonListState extends State<PokemonList> {
                   child: Observer(
                     builder: (_) {
                       return Text(
-                        "PAGE: ${(pokemonStore.offset / 20).toInt() + 1}",
+                        "PAGE: ${pokemonStore.currentPage}",
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
