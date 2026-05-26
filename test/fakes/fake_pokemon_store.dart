@@ -15,6 +15,12 @@ class FakePokemonStore implements PokemonStore {
   int get limit => 20;
 
   @override
+  bool get canGoBack => _offset.value >= limit;
+
+  @override
+  int get currentPage => (_offset.value / limit).toInt() + 1;
+
+  @override
   ObservableList<PokemonModel> pokemonList = ObservableList<PokemonModel>();
 
   @override

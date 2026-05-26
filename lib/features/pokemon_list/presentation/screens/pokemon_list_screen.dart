@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -14,7 +16,7 @@ class PokemonList extends StatefulWidget {
   State<PokemonList> createState() => _PokemonListState();
 }
 
-class _PokemonListState extends State<PokemonList> with RouteAware{
+class _PokemonListState extends State<PokemonList> with RouteAware {
   final pokemonStore = GetIt.I<PokemonStore>();
   final routeObserver = GetIt.I<RouteObserver<ModalRoute>>();
   final _player = AudioPlayer();
@@ -30,8 +32,8 @@ class _PokemonListState extends State<PokemonList> with RouteAware{
     try {
       await Future.delayed(const Duration(milliseconds: 500));
       await _player.setAudioSource(
-       AudioSource.asset('assets/audio/theme_sound.wav'),
-       preload: true,
+        AudioSource.asset('assets/audio/theme_sound.wav'),
+        preload: true,
       );
       await _player.setLoopMode(LoopMode.all);
       await _player.setVolume(0.6);
@@ -90,6 +92,74 @@ class _PokemonListState extends State<PokemonList> with RouteAware{
               ),
             ),
           ),
+        ],
+      ),
+      floatingActionButton: Stack(
+        children: [
+          // BOTÃO 1: Crashlytics (erro não-fatal)
+//          Positioned(
+//            bottom: 80, // Posição vertical
+//            right: 0,
+//            child: FloatingActionButton(
+//              heroTag: 'crashlytics_test',
+//
+//              onPressed: () {
+//                try {
+//                  int resultado = 100 ~/ 0; // Força erro
+//                } catch (error, stackTrace) {
+//                  FirebaseCrashlytics.instance.recordError(
+//                    error,
+//                    stackTrace,
+//                    reason: 'Teste de erro não-fatal',
+//                    fatal: false,
+//                  );
+//
+//                  ScaffoldMessenger.of(context).showSnackBar(
+//                    const SnackBar(
+//                      content: Text('💥 Erro registrado no Crashlytics!'),
+//                      backgroundColor: Colors.orange,
+//                    ),
+//                  );
+//                }
+//              },
+//              backgroundColor: Colors.orange,
+//              child: const Icon(Icons.bug_report, color: Colors.white),
+//              tooltip: 'Teste Crashlytics',
+//            ),
+//          ),
+
+          // BOTÃO 2: Analytics (evento de teste)
+//          Positioned(
+//            bottom: 0, // Posição vertical
+//            right: 0,
+//            child: FloatingActionButton(
+//              heroTag: 'analytics_test',
+//              // ← Importante: tags únicas
+//              onPressed: () async {
+//                await FirebaseAnalytics.instance.logEvent(
+//                  name: 'test_button_clicked',
+//                  parameters: {
+//                    'teste': 'funcionou',
+//                    'timestamp': DateTime.now().toString(),
+//                    'device': 'android',
+//                    'test_number': DateTime.now().millisecondsSinceEpoch,
+//                  },
+//                );
+//
+//                ScaffoldMessenger.of(context).showSnackBar(
+//                  const SnackBar(
+//                    content: Text('✅ Evento enviado para Analytics!'),
+//                    backgroundColor: Colors.green,
+//                  ),
+//                );
+//
+//                print('📊 Evento test_button_clicked enviado!');
+//              },
+//              backgroundColor: Colors.blue,
+//              child: const Icon(Icons.analytics, color: Colors.white),
+//              tooltip: 'Teste Analytics',
+//            ),
+//          ),
         ],
       ),
       body: Column(

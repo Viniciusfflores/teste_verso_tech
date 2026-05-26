@@ -34,7 +34,7 @@ class PokemonInfo extends StatelessWidget {
 
 
   @override
-  dispose() {
+  void dispose() {
     player.dispose();
   }
 

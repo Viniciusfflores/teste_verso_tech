@@ -13,6 +13,6 @@ class PokemonRemoteDatasource {
   }
 
   Future<Response> getPokemonDetail(int id) async {
-    return await _dio.get('pokemon/${id}');
+    return await _dio.get('pokemon/$id');
   }
 }

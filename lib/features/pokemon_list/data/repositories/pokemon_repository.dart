@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:dio/dio.dart';
 import '../../../../core/errors/app_exception.dart';
 import '../datasource/pokemon_remote_datasource.dart';

@@ -19,6 +19,9 @@ dependencies:
   cached_network_image: ^3.4.1
   get_it: ^9.2.0
   just_audio: ^0.10.5
+  firebase_core: ^4.4.0
+  firebase_analytics: ^12.1.2
+  firebase_crashlytics: ^5.0.7
 
 dev_dependencies:
   flutter_test:

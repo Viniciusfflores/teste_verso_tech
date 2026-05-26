@@ -9,7 +9,7 @@ import '../stores/pokemon_store.dart';
 class PokemonDetail extends StatefulWidget {
   final int pokemonId;
 
-  PokemonDetail({super.key, required this.pokemonId});
+  const PokemonDetail({super.key, required this.pokemonId});
 
   @override
   State<PokemonDetail> createState() => _PokemonDetail();

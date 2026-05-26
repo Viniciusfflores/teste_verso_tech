@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
 import 'package:pokemon_api_test/features/pokemon_list/presentation/screens/widgets/pokemon_info.dart';
@@ -9,11 +10,13 @@ import '../helpers/test_app.dart';
 void main() {
   testWidgets('PokemonInfo: renderiza nome e id', (tester) async {
     final pokemon = bulbasaur();
+    final player = AudioPlayer();
+
 
     await mockNetworkImagesFor(() async {
       await tester.pumpWidget(
         wrapWithApp(
-          PokemonInfo(pokemon: pokemon),
+          PokemonInfo(pokemon: pokemon, player: player),
         ),
       );
       await tester.pump();
@@ -25,11 +28,12 @@ void main() {
 
   testWidgets('PokemonInfo: renderiza imagem (CachedNetworkImage)', (tester) async {
     final pokemon = bulbasaur();
+    final player = AudioPlayer();
 
     await mockNetworkImagesFor(() async {
       await tester.pumpWidget(
         wrapWithApp(
-          PokemonInfo(pokemon: pokemon),
+          PokemonInfo(pokemon: pokemon, player: player),
         ),
       );
       await tester.pump();
