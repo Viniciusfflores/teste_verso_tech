@@ -12,6 +12,10 @@ import '../helpers/test_app.dart';
 void main() {
   setUp(() async {
     await GetIt.I.reset();
+    // Mantém o RouteObserver para evitar o StateError anterior
+    GetIt.I.registerSingleton<RouteObserver<ModalRoute<dynamic>>>(
+      RouteObserver<ModalRoute<dynamic>>(),
+    );
   });
 
   testWidgets('Home: mostra loading quando isLoading = true', (tester) async {
@@ -20,7 +24,7 @@ void main() {
 
     await mockNetworkImagesFor(() async {
       await tester.pumpWidget(wrapWithApp(const PokemonList()));
-      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
     });
 
     expect(find.byKey(const Key('loading')), findsOneWidget);
@@ -33,7 +37,7 @@ void main() {
     GetIt.I.registerSingleton<PokemonStore>(store);
 
     await tester.pumpWidget(wrapWithApp(const PokemonList()));
-    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
 
     expect(find.textContaining('Falha ao carregar'), findsOneWidget);
   });
@@ -47,7 +51,7 @@ void main() {
 
     await mockNetworkImagesFor(() async {
       await tester.pumpWidget(wrapWithApp(const PokemonList()));
-      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
     });
 
     expect(find.text('Bulbasaur'), findsOneWidget);

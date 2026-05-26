@@ -20,7 +20,8 @@ void main() {
     GetIt.I.registerSingleton<PokemonStore>(store);
 
     await tester.pumpWidget(wrapWithApp(PokemonDetail(pokemonId: 1)));
-    await tester.pump();
+    // Avança 1 segundo para processar o initState e quebrar o timer do playSound
+    await tester.pump(const Duration(seconds: 1));
 
     expect(find.byKey(const Key('loading')), findsOneWidget);
   });
@@ -33,7 +34,7 @@ void main() {
     GetIt.I.registerSingleton<PokemonStore>(store);
 
     await tester.pumpWidget(wrapWithApp(PokemonDetail(pokemonId: 1)));
-    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
 
     expect(find.textContaining('Falha ao carregar Detalhes'), findsOneWidget);
     expect(find.byIcon(Icons.error_outline), findsOneWidget);
@@ -48,7 +49,7 @@ void main() {
 
     await mockNetworkImagesFor(() async {
       await tester.pumpWidget(wrapWithApp(PokemonDetail(pokemonId: 1)));
-      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
     });
 
     expect(find.text('BULBASAUR'), findsOneWidget);
